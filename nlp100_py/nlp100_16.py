@@ -21,7 +21,10 @@ path = "./nlp100/hightemp.txt"
 split(path, num)
 
 # Unix command
+
 # read N
-# len=wc -l ./nlp100/hightemp.txt
-# file_size=-(-len/N)
-# tail -n $N ./nlp100/hightemp.txt
+# len=$(cat ./data/hightemp.txt | wc -l)
+# len=$(wc -l ./data/hightemp.txt | awk '{print $1}')
+# file_size=$((-(-$len/$N)))
+# split -l $file_size ./data/hightemp.txt ./data/hightemp_split_u  #BSD
+# split -l $file_size -d --additional-suffix=.txt ./data/hightemp.txt ./data/hightemp_split_u  #Linux
