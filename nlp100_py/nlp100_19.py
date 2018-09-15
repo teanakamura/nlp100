@@ -19,7 +19,7 @@ lines.sort(key = lambda l: l[-1], reverse = True)  #返り値ないので連続�
 for l in lines:
     print('\t'.join(l[:-1]))
 
-#col_dictからこっちだけで十分だったのかも
+#col_dictこっちだけで十分だったかも
 for pre, num in sorted(col_dict.items(), key = lambda l: l[1],reverse = True):  #dict型にsorted関数を適用するとtapleのlistが返る。
     print(str(num) + "\t" + pre)
 
