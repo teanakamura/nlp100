@@ -1,13 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
+'''
 破壊的メソッドは返り値がないことに注意。今回appendやsortは破壊的メソッド
-"""
+'''
 
 import collections
+import os
 
-with open("./data/hightemp.txt") as f:
+# t:this file, s:source file, o:output file, w:working directory
+w_t_rel = os.path.dirname(__file__)
+t_s_rel = '../data/hightemp.txt'
+w_s_rel = os.path.normpath(os.path.join(w_t_rel, t_s_rel))
+
+with open(w_s_rel) as f:
     lines = [l.split() for l in f]
 col_dict = collections.Counter([l[0] for l in lines])
 col_of_lines = [col_dict[l[0]] for l in lines]
@@ -19,13 +25,13 @@ lines.sort(key = lambda l: l[-1], reverse = True)  #返り値ないので連続�
 for l in lines:
     print('\t'.join(l[:-1]))
 
-#col_dictこっちだけで十分だったかも
+#col_dictのみを使用するこっちだけで十分だったかも
 for pre, num in sorted(col_dict.items(), key = lambda l: l[1],reverse = True):  #dict型にsorted関数を適用するとtapleのlistが返る。
     print(str(num) + "\t" + pre)
 
 
 
-"""
+'''
 Unix command
-    cut -f1 ./data/hightemp.txt | sort | uniq -c | sort -nrk1  　#ちょっと出力違う
-"""
+    cut -f1 ./chapter2/data/hightemp.txt | sort | uniq -c | sort -nrk1  　#ちょっと出力違う
+'''
