@@ -26,7 +26,9 @@ for l in lines:
     print('\t'.join(l[:-1]))
 
 #col_dictのみを使用するこっちだけで十分だったかも
-for pre, num in sorted(col_dict.items(), key = lambda l: l[1],reverse = True):  #dict型にsorted関数を適用するとtapleのlistが返る。
+for pre, num in sorted(col_dict.items(), key = lambda l: l[1],reverse = True):
+        # dict型にsorted関数を適用するとtapleのlistが返る。
+        # sorted関数でdict型のiterationが呼びだされるが、この際 .keys / .values / .items のいずれかを使ってループの対象を指定する必要がある。 
     print(str(num) + "\t" + pre)
 
 
