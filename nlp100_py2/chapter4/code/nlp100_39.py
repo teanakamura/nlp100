@@ -5,8 +5,8 @@ import os
 import re
 from collections import Counter
 import MeCab
-import matplotlib.pyplot as plt
-from matplotlib import font_manager as fm
+from matplotlib import pyplot as plt, font_manager as fm
+#import matplotlib.pyplot as plt, matplotlib.font_manager as fm
 
 # この file から source file への相対パスを取得
 w_t_rel = os.path.dirname(__file__)

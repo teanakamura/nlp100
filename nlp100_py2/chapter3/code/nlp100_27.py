@@ -4,16 +4,21 @@
 import gzip
 import json
 import re
+import os
+
+# get relative path from working directory
+def rel_path(rel_path_from_this_file):
+    return os.path.normpath(os.path.join(os.path.dirname(__file__), rel_path_from_this_file))
 
 def extract_UK():
-    with gzip.open("data/jawiki-country.json.gz") as f:
+    with gzip.open(rel_path('../data/jawiki-country.json.gz')) as f:
         for line in f:
             doc = json.loads(line)
             if doc['title'] == u'イギリス':
                 return doc['text']
 
 def extract_baseinfo(text):
-    pattern1 = r'{{基礎情報(?:(?:[^{}]*{{[^{]+}})*[^{]*)}}'.decode('utf-8')
+    pattern1 = ur'{{基礎情報(?:(?:[^{}]*{{[^{]+}})*[^{]*)}}'
     pattern2 = re.compile(r'\|(.+?)\s*=[\t\r\f\v]*(.*?)(?=\n\||\n\}\})', re.DOTALL)
     all_base_info = re.findall(pattern1, text)
     base_infoes = re.findall(pattern2, all_base_info[0])
@@ -26,7 +31,7 @@ def remove_emphatic_expression(string):
 
 def replace_linked_expression(string):
     #patter = re.compile(u'\[\[.*?\|?([^|]+?)\]\]')
-    pattern = r'(?<!REDIRECT)\[\[(?!ファイル:|File:|Category:).*?\|?([^|]+?)\]\]'.decode('utf-8')
+    pattern = ur'(?<!REDIRECT)\[\[(?!ファイル:|File:|Category:).*?\|?([^|]+?)\]\]'
         # REDIRECT、ファイル、Categoryにはマッチしないように調整
         # (?<!regex) は否定あと読みアサーション、(?!regex) は否定先読みアサーション
         # "ファイル"にマッチするようにuは必須。re.sub関数でrを使ってpattern宣言するのはできない。"

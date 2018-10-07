@@ -4,9 +4,14 @@
 import gzip
 import json
 import re
+import os
+
+# get relative path from working directory
+def rel_path(rel_path_from_this_file):
+    return os.path.normpath(os.path.join(os.path.dirname(__file__), rel_path_from_this_file))
 
 def extract_UK():
-    with gzip.open("data/jawiki-country.json.gz") as f:
+    with gzip.open(rel_path('../data/jawiki-country.json.gz')) as f:
         for line in f:
             doc = json.loads(line)
             if doc['title'] == u'イギリス':
@@ -16,7 +21,7 @@ def extract_UK():
     # re.DOTALL で"."が改行文字にもマッチするようになる
     # "\n"の代わりにre.M で"$"を使用しても良い。
     # 本来は{{}}の数を数えるべきだが難しいので簡易的に改行前の}}のマッチで判断するようにした。
-pattern1 = r'{{基礎情報(?:(?:[^{}]*{{[^{]+}})*[^{]*)}}'.decode('utf-8')
+pattern1 = ur'{{基礎情報(?:(?:[^{}]*{{[^{]+}})*[^{]*)}}'
     # こっちの方がいいかも。ただ多重の{{}}には対応できない。
 pattern2 = re.compile(r'\|(.+?)\s*=[\t\r\f\v]*(.*?)(?=\n\||\n\}\})', re.DOTALL)
 

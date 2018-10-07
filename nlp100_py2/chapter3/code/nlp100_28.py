@@ -4,16 +4,21 @@
 import gzip
 import json
 import re
+import os
+
+# get relative path from working directory
+def rel_path(rel_path_from_this_file):
+    return os.path.normpath(os.path.join(os.path.dirname(__file__), rel_path_from_this_file))
 
 def extract_UK():
-    with gzip.open("data/jawiki-country.json.gz") as f:
+    with gzip.open(rel_path('../data/jawiki-country.json.gz')) as f:
         for line in f:
             doc = json.loads(line)
             if doc['title'] == u'イギリス':
                 return doc['text']
 
 def extract_baseinfo(text):
-    pattern1 = r'{{基礎情報(?:(?:[^{}]*{{[^{]+}})*[^{]*)}}'.decode('utf-8')
+    pattern1 = ur'{{基礎情報(?:(?:[^{}]*{{[^{]+}})*[^{]*)}}'
     pattern2 = re.compile(r'\|(.+?)\s*=[\t\r\f\v]*(.*?)(?=\n\||\n\}\})', re.DOTALL)
     all_base_info = re.findall(pattern1, text)
     molded_all_base_info = remove_mediawiki_markup(all_base_info[0])
@@ -24,8 +29,8 @@ def extract_baseinfo(text):
 
 def remove_mediawiki_markup(string):
     pattern1 = r'(\'{2,5})(.+?)(\1)'   # 強調３種
-    pattern2 = r'(?<!REDIRECT)\[\[(?!ファイル:|File:|Category:).*?\|?([^|]+?)\]\]'.decode('utf-8')  # 内部リンク
-    pattern3 = r'\[\[(ファイル|File|Category):.+\]\]'.decode('utf-8')  # ファイルとカテゴリ
+    pattern2 = ur'(?<!REDIRECT)\[\[(?!ファイル:|File:|Category:).*?\|?([^|]+?)\]\]'  # 内部リンク
+    pattern3 = ur'\[\[(ファイル|File|Category):.+\]\]'  # ファイルとカテゴリ
     pattern4_1 = r'\[(http[^ ]+)]'  # 外部リンク1
     pattern4_2 = r'\[http[^ ]+\s?(.*)\]'  # 外部リンク2
     pattern5 = r'<.+>'  # HTMLタグ

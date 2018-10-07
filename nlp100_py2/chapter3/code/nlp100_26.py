@@ -4,16 +4,21 @@
 import gzip
 import json
 import re
+import os
+
+# get relative path from working directory
+def rel_path(rel_path_from_this_file):
+    return os.path.normpath(os.path.join(os.path.dirname(__file__), rel_path_from_this_file))
 
 def extract_UK():
-    with gzip.open("data/jawiki-country.json.gz") as f:
+    with gzip.open(rel_path('../data/jawiki-country.json.gz')) as f:
         for line in f:
             doc = json.loads(line)
             if doc['title'] == u'イギリス':
                 return doc['text']
 
 def extract_baseinfo():
-    pattern1 = r'{{基礎情報(?:(?:[^{}]*{{[^{]+}})*[^{]*)}}'.decode('utf-8')
+    pattern1 = ur'{{基礎情報(?:(?:[^{}]*{{[^{]+}})*[^{]*)}}'
     pattern2 = re.compile(r'\|(.+?)\s*=[\t\r\f\v]*(.*?)(?=\n\||\n\}\})', re.DOTALL)
     all_base_info = re.findall(pattern1, extract_UK())
     base_infoes = re.findall(pattern2, all_base_info[0])
