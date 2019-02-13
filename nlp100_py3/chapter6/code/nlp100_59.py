@@ -9,7 +9,6 @@ import pydot_ng as pd
 # import re # re moduleは純粋な正規表現を扱うので複数nestされた括弧（nested set）の対応がとれない。
 import regex # 再帰マッチが使用できる。
 
-
 from mymodule.path_helpers import get_rel_path_from_working_directory
 from nlp100_53 import get_parsed_xml_from_rel_path
 
