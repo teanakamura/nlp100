@@ -22,4 +22,4 @@ file_num = sys.argv[1]
 chapter_num = int(file_num[0]) + 1
 rel_path = "./chapter%d/code/nlp100_%s.py" % (chapter_num, file_num)
 execute_file_path = get_rel_path_from_working_directory(__file__, rel_path)
-subprocess.run(["python", execute_file_path])
+subprocess.run(["python", execute_file_path, *sys.argv[2:]])
