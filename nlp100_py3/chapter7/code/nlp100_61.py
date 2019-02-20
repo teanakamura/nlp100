@@ -13,7 +13,8 @@ def search_area_from_name(redis):
         sys.argv.append(input())
     name = sys.argv[1].encode('utf-8')
     if name == b'random':
-        name = random.choice(redis.keys())
+        # name = random.choice(redis.keys())
+        name = redis.randomkey()
     area = redis.get(name)
     name = name.decode('utf-8')
     if area == b'None':
