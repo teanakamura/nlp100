@@ -7,8 +7,6 @@ from IPython import embed
 from pymongo import MongoClient, IndexModel
 from mymodule.path_helpers import get_rel_path_from_working_directory
 import json
-import redis
-import sys
 
 def create_db(json_file_path, collection):
     with open(json_file_path) as f:
