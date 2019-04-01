@@ -43,5 +43,5 @@ if __name__ == '__main__':
     features = extract_features(sentences)
     output_file_path = get_rel_path_from_working_directory(__file__, '../data/features.txt')
     with open(output_file_path, encoding='Windows-1252', mode='w') as f:
-        f.write('\n'.join(features))
+        f.write(' '.join(features))
     print('features.txt file is made.')
