@@ -32,7 +32,6 @@ def is_stopword(word):
 
 
 if __name__ == '__main__':
-    embed()
     file_path = get_rel_path_from_working_directory(__file__, '../data/sentiment.txt')
     with open(file_path,  encoding='Windows-1252') as f:
         sentences = f.readlines()
