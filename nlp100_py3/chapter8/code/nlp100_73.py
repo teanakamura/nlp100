@@ -34,6 +34,17 @@ def add_x0_line_for_bias(x):
     x0 = np.ones([x.shape[0], 1])
     return np.hstack([x0, x])
 
+def object_and_grad(x, y, theta):
+    """
+    最小化する目的関数の値
+    各θの最急降下法における勾配（ベクトル）
+    """
+    m = y.size
+    h = sigmoid(x, theta)
+    object = 1 / m * np.sum(-y * np.log(h) - (np.ones(m) - y) * np.log(np.ones(m) - h))
+    grad = 1 / m * np.dot(h - y, x)
+    return object, grad
+
 
 if __name__ == '__main__':
     ETA = 1e-3
@@ -49,6 +60,10 @@ if __name__ == '__main__':
     X, Y = create_x_y_data(sentences, features)
 
     for i in range(EPOCH):
+        print('epoch' + str(i), end='\r')
+        if i % 500 == 0 or i == EPOCH - 1 :
+            obj, grad = object_and_grad(X, Y, theta)
+            max_update_value = np.max(np.absolute(ETA * grad))
+            print('epoch%d:   objective function value %f   max update value %.5e' % (i, obj, max_update_value))
         theta = update_theta(ETA, X, Y, theta)
-        print('epoch' + str(i + 1), end='\r')
     np.save(theta_file, theta)
